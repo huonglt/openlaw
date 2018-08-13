@@ -28,7 +28,9 @@ http.createServer((req, res) => {
         form.on('fileBegin', function(name, file) {
             file.path = form.uploadDir + '/' + file.name;
         });
-        
+        form.on('file', function(name, file) {
+            fileParser.parse(file.path).then(parsedResult => console.log(`parsedResult = ${JSON.stringify(parsedResult)}`));
+        });
     }
 }).listen(HTTP_PORT);
 
