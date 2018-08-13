@@ -50,13 +50,22 @@ const parseFileContent = (fileContent) => {
 };
 
 /**
+ * Logging the parsed result to the console
+ * @param {Object} result The result from parseFileContent method. It conttains totalWordCount, and wordOccurences properties
+ */
+const logResult = (result) => {
+    console.log(`totalWordCount = ${result.totalWordCount}`);
+    console.log(`wordOccurences = ${JSON.stringify(result.wordOccurences)}`);
+};
+
+/**
  * The main function to parse the file
  * @param {string} filePath Full path to the file to parse
  */
 async function parse(filePath) {
     const fileContent = await readFile(filePath);
     const result = parseFileContent(fileContent);
-    console.log(`parsed file result = ${JSON.stringify(result)}`);
+    logResult(result);
 }
 
 const filePath = path.resolve(__dirname, 'uploadDir/addFeature.js');
