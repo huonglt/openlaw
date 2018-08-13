@@ -1,21 +1,35 @@
 const http = require('http');
 const formidable = require('formidable');
 const path = require('path');
+const fileParser = require('./fileParser');
 
+const HTTP_PORT = 8081;
+const UPLOAD_DIR = 'uploadDir';
+
+/**
+ * Setting for formidable
+ * File uploaded will be copied to the UPLOAD_DIR, keeping the file name and its extension
+ */
 const form = new formidable.IncomingForm();
 form.encoding = 'utf-8';
 form.keepExtensions = true;
 form.type = 'multipart/form-data';
-form.uploadDir = path.resolve(__dirname, 'uploadDir');
+form.uploadDir = path.resolve(__dirname, UPLOAD_DIR);
 
+/**
+ * Create HTTP server listening on port ${HTTP_PORT}
+ * The server only response to requests with path /upload and method of POST
+ * When file is uploaded, the file parser will parse the file
+ */
 http.createServer((req, res) => {
     if(req.url === '/upload' && req.method.toLowerCase() === 'post') {
+        
         form.parse(req);
         form.on('fileBegin', function(name, file) {
-            console.log(`fileBegin: name = ${name}, file = ${JSON.stringify(file)}`);
             file.path = form.uploadDir + '/' + file.name;
         });
+        
     }
-}).listen(8081);
+}).listen(HTTP_PORT);
 
-console.log(`server is running on port 8081`);
+console.log(`server is running on port ${HTTP_PORT}`);
