@@ -16,13 +16,34 @@ const readFile = (filePath) => {
 }
 
 /**
+ * Parse file content to find the total word count, and word occurences
+ * @param {string} fileContent The string content of the file
+ * @returns {Object} The Javascript object with totalWordCount, and wordOccurences properties
+ */
+const parseFileContent = (fileContent) => {
+    let initialValue = {
+        totalWordCount: 0,
+        wordOccurences: {}
+    };
+    const lines = fileContent.split('\n');
+    const result = lines.reduce((accumulator, line) => {
+        const words = line.split(' ');
+        return {
+            totalWordCount: accumulator.totalWordCount + words.length
+        }
+    }, initialValue);
+    return result;
+};
+
+/**
  * The main function to parse the file
  * @param {string} filePath Full path to the file to parse
  */
 async function parse(filePath) {
     const fileContent = await readFile(filePath);
-    console.log(`fileContent = ${JSON.stringify(fileContent)}`);
+    const result = parseFileContent(fileContent);
+    console.log(`parsed file result = ${JSON.stringify(result)}`);
 }
-/*
+
 const filePath = path.resolve(__dirname, 'uploadDir/addFeature.js');
-parse(filePath);*/
+parse(filePath);
