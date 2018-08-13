@@ -64,8 +64,7 @@ const logResult = (result) => {
  */
 async function parse(filePath) {
     const fileContent = await readFile(filePath);
-    const result = parseFileContent(fileContent);
-    logResult(result);
+    return parseFileContent(fileContent);
 }
 
 module.exports = {
