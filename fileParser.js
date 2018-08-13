@@ -42,7 +42,8 @@ const parseFileContent = (fileContent) => {
     const result = lines.reduce((accumulator, line) => {
         const words = line.split(' ');
         return {
-            totalWordCount: accumulator.totalWordCount + words.length
+            totalWordCount: accumulator.totalWordCount + words.length,
+            wordOccurences: wordOccurenceTable(words, accumulator.wordOccurences)
         }
     }, initialValue);
     return result;
