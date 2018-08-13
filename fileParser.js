@@ -16,6 +16,19 @@ const readFile = (filePath) => {
 }
 
 /**
+ * Build a table/dictionary containing unique word and its occurence count
+ * @param {Array[string]} words An array of word
+ * @param {Object} initialValue The initial value for the accumulator of the reducer function
+ * @returns {Object} The JS Object with each unique word as key, and its occurence count as value 
+ */
+const wordOccurenceTable = (words, initialValue) => {
+    return words.reduce((accumulator, word) => {
+        accumulator[word] = (accumulator[word]) ? accumulator[word] + 1 : 1;
+        return accumulator;
+    }, initialValue);
+}
+
+/**
  * Parse file content to find the total word count, and word occurences
  * @param {string} fileContent The string content of the file
  * @returns {Object} The Javascript object with totalWordCount, and wordOccurences properties
