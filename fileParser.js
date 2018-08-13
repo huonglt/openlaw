@@ -68,5 +68,6 @@ async function parse(filePath) {
     logResult(result);
 }
 
-const filePath = path.resolve(__dirname, 'uploadDir/addFeature.js');
-parse(filePath);
+module.exports = {
+    parse
+};
