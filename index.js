@@ -10,11 +10,14 @@ const UPLOAD_DIR = 'uploadDir';
  * Setting for formidable
  * File uploaded will be copied to the UPLOAD_DIR, keeping the file name and its extension
  */
-const form = new formidable.IncomingForm();
-form.encoding = 'utf-8';
-form.keepExtensions = true;
-form.type = 'multipart/form-data';
-form.uploadDir = path.resolve(__dirname, UPLOAD_DIR);
+const createIncomingForm = () => {
+    const form = new formidable.IncomingForm();
+    form.encoding = 'utf-8';
+    form.keepExtensions = true;
+    form.type = 'multipart/form-data';
+    form.uploadDir = path.resolve(__dirname, UPLOAD_DIR);
+    return form;
+}
 
 /**
  * Create HTTP server listening on port ${HTTP_PORT}
@@ -22,14 +25,37 @@ form.uploadDir = path.resolve(__dirname, UPLOAD_DIR);
  * When file is uploaded, the file parser will parse the file
  */
 http.createServer((req, res) => {
+    const writeResponseData = (obj) => {
+        res.statusCode = 200;
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        res.setHeader('Content-Type', 'application/json');
+        res.write(JSON.stringify(obj || {}));
+        res.end();
+    };
+
     if(req.url === '/upload' && req.method.toLowerCase() === 'post') {
-        
+        const form = createIncomingForm();
+
+        let fullFilePath;
         form.parse(req);
+
         form.on('fileBegin', function(name, file) {
             file.path = form.uploadDir + '/' + file.name;
         });
         form.on('file', function(name, file) {
-            fileParser.parse(file.path).then(parsedResult => console.log(`parsedResult = ${JSON.stringify(parsedResult)}`));
+            fullFilePath = file.path;
+        });
+
+        /**
+         * When the entire request has been received, parse the uploaded file, and send the result back as json
+         * Allow CORS by setting Access-Control-Allow-Origin to the header of the response
+         */
+        form.on('end', () => {
+            fileParser.parse(fullFilePath).then(parsedResult => {
+                writeResponseData(parsedResult);
+            }).catch(err => {
+                writeResponseData(err);
+            });
         });
     }
 }).listen(HTTP_PORT);
