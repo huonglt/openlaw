@@ -68,5 +68,6 @@ async function parse(filePath) {
 }
 
 module.exports = {
-    parse
+    parse,
+    wordOccurenceTable
 };
