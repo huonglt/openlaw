@@ -59,15 +59,6 @@ const parseFileContent = (fileContent) => {
 };
 
 /**
- * Logging the parsed result to the console
- * @param {Object} result The result from parseFileContent method. It conttains totalWordCount, and wordOccurences properties
- */
-const logResult = (result) => {
-    console.log(`totalWordCount = ${result.totalWordCount}`);
-    console.log(`wordOccurences = ${JSON.stringify(result.wordOccurences)}`);
-};
-
-/**
  * The main function to parse the file
  * @param {string} filePath Full path to the file to parse
  */
