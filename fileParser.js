@@ -2,6 +2,13 @@ const fs = require('fs');
 const path = require('path');
 
 /**
+ * Handle error emitted of the server, so that it is still running
+ */
+process.on('uncaughtException', function (err) {
+    console.log('UncaughtException: ', err);
+});
+
+/**
  * Read content of an ascii file
  * @param {string} filePath Full path to the file to read
  * @returns {Promise} The promise which will resolve when file read ok, reject when read file fails
@@ -9,9 +16,11 @@ const path = require('path');
 const readFile = (filePath) => {
     return new Promise((resolve, reject) => {
         return fs.readFile(filePath, '', function(err, data) {
-            if (err) throw reject(err);
+            if (err) {
+                reject(err);
+            }
             resolve(data.toString());
-        });
+        })
     });
 }
 
