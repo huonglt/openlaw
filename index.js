@@ -2,9 +2,17 @@ const http = require('http');
 const formidable = require('formidable');
 const path = require('path');
 const fileParser = require('./fileParser');
+const fs = require('fs');
 
 const HTTP_PORT = 8081;
-const UPLOAD_DIR = 'uploadDir';
+const UPLOAD_DIR_PATH = path.resolve(__dirname, 'uploadDir');
+
+/**
+ * Create folder uploadDir to store uploaded files if needed
+ */
+if(!fs.existsSync(UPLOAD_DIR_PATH)) {
+    fs.mkdirSync(UPLOAD_DIR_PATH);
+}
 
 /**
  * Setting for formidable
@@ -15,7 +23,7 @@ const createIncomingForm = () => {
     form.encoding = 'utf-8';
     form.keepExtensions = true;
     form.type = 'multipart/form-data';
-    form.uploadDir = path.resolve(__dirname, UPLOAD_DIR);
+    form.uploadDir = UPLOAD_DIR_PATH;
     return form;
 }
 
@@ -60,5 +68,6 @@ http.createServer((req, res) => {
         console.log(`err = ${JSON.stringify(err)}`);
     }
 }).listen(HTTP_PORT);
+
 
 console.log(`server is running on port ${HTTP_PORT}`);
