@@ -32,31 +32,32 @@ http.createServer((req, res) => {
         res.write(JSON.stringify(obj || {}));
         res.end();
     };
+    try {
+        if(req.url === '/upload' && req.method.toLowerCase() === 'post') {
+            const form = createIncomingForm();
 
-    if(req.url === '/upload' && req.method.toLowerCase() === 'post') {
-        const form = createIncomingForm();
+            let fullFilePath;
+            form.parse(req);
 
-        let fullFilePath;
-        form.parse(req);
-
-        form.on('fileBegin', function(name, file) {
-            file.path = form.uploadDir + '/' + file.name;
-        });
-        form.on('file', function(name, file) {
-            fullFilePath = file.path;
-        });
-
-        /**
-         * When the entire request has been received, parse the uploaded file, and send the result back as json
-         * Allow CORS by setting Access-Control-Allow-Origin to the header of the response
-         */
-        form.on('end', () => {
-            fileParser.parse(fullFilePath).then(parsedResult => {
-                writeResponseData(parsedResult);
-            }).catch(err => {
-                writeResponseData(err);
+            form.on('fileBegin', (name, file) => {
+                file.path = form.uploadDir + '/' + file.name;
+                fullFilePath = file.path;
             });
-        });
+
+            /**
+             * When the entire request has been received, parse the uploaded file, and send the result back as json
+             * Allow CORS by setting Access-Control-Allow-Origin to the header of the response
+             */
+            form.on('end', () => {
+                fileParser.parse(fullFilePath).then(parsedResult => {
+                    writeResponseData(parsedResult);
+                }).catch(err => {
+                    writeResponseData(err);
+                });
+            });
+        } 
+    } catch(err) {
+        console.log(`err = ${JSON.stringify(err)}`);
     }
 }).listen(HTTP_PORT);
 
