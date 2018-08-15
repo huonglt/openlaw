@@ -2,8 +2,8 @@
 
 This is a simple nodejs HTTP server running on port 8081.<br/>
 It provides an endpoint to upload an ascii file for parsing. The file size is limited to 10MB<br/>
-The parsing result will have total word count, and the counts of each occurrence of a word<br/>
-If the parsing fails, it will return an error to the client
+The parsing result will be a JSON object containng total word count, and the counts of each occurrence of a word fields<br/>
+If the parsing fails, it will return a JSON object with the error messageß
 
 ### Prerequisites
 You need to have node, npm or yarn install<br/>
