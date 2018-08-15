@@ -11,8 +11,10 @@ I am using node version 10.2.1, yarn version 1.7.0, npm version 5.6.0
 
 ### Installing
 
-Clone the repo to your directory
-Run npm install or yarn install to install npm dependencies
+Clone the repo to your directory<br/>
+To install npm dependencies<br/>
+Run npm install <br/>
+or yarn install
 
 ## To run the app
 npm start or yarn start
