@@ -1,6 +1,9 @@
 # OpenLaw - Server app
 
-This is a simple nodejs server running on port 8081. It provides an endpoint to upload an ascii file for parsing
+This is a simple nodejs HTTP server running on port 8081. 
+It provides an endpoint to upload an ascii file for parsing. The file size is limited to 10MB
+The parsing result will have total word count, and the counts of each occurrence of a word
+If the parsing fails, it will return an error to the client
 
 ### Prerequisites
 You need to have node, npm or yarn install
