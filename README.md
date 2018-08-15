@@ -25,5 +25,9 @@ npm start or yarn start
 The app using jest as a test runner<br/>
 npm run test or yarn test
 
-
+## Further improvement
+A lot more things could be done to make this a better app including<br/>
+Checking uploaded file to make sure it is an ASCII file<br/>
+More tests with file size closes to 10MB to check performance<br/>
+Remove the file from uploadDir after parsing, cause we dont need to use it<br/>
 
