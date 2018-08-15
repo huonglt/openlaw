@@ -15,15 +15,32 @@ I am using node version 10.2.1, yarn version 1.7.0, npm version 5.6.0
 
 Clone the repo to your directory<br/>
 To install npm dependencies<br/>
-Run npm install <br/>
-or yarn install
+```
+npm install
+```
+or<br/>
+```
+yarn install
+```
 
 ## To run the app
-npm start or yarn start
+```
+npm start
+```
+or<br/>
+```
+yarn install
+```
 
 ## To run unit test
 The app using jest as a test runner<br/>
-npm run test or yarn test
+```
+npm run test
+```
+or<br/>
+```
+yarn test
+```
 
 ## Further improvement
 A lot more things could be done to make this a better app including<br/>
