@@ -8,6 +8,13 @@ const HTTP_PORT = 8081;
 const UPLOAD_DIR_PATH = path.resolve(__dirname, 'uploadDir');
 
 /**
+ * Handle error emitted of the server, so that it is still running
+ */
+process.on('uncaughtException', function (err) {
+    console.log('UncaughtException: ', err);
+});
+
+/**
  * Create folder uploadDir to store uploaded files if needed
  */
 if(!fs.existsSync(UPLOAD_DIR_PATH)) {
@@ -24,6 +31,7 @@ const createIncomingForm = () => {
     form.keepExtensions = true;
     form.type = 'multipart/form-data';
     form.uploadDir = UPLOAD_DIR_PATH;
+    form.maxFileSize = 10 * 1024 * 1024; // maximum of 10MB file
     return form;
 }
 
@@ -61,6 +69,12 @@ http.createServer((req, res) => {
                     writeResponseData(parsedResult);
                 }).catch(err => {
                     writeResponseData(err);
+                });
+            });
+
+            form.on('error', function(err) {
+                writeResponseData({
+                    errMsg: 'File either > 10MB , or not ascii file'
                 });
             });
         } 
