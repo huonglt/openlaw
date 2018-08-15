@@ -20,6 +20,7 @@ or yarn install
 npm start or yarn start
 
 ## To run unit test
+The app using jest as a test runner<br/>
 npm run test or yarn test
 
 
