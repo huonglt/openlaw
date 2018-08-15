@@ -67,16 +67,10 @@ http.createServer((req, res) => {
             form.on('end', () => {
                 fileParser.parse(fullFilePath).then(parsedResult => {
                     writeResponseData(parsedResult);
-                }).catch(err => {
-                    writeResponseData(err);
-                });
+                }).catch(err => writeResponseData(err));
             });
 
-            form.on('error', function(err) {
-                writeResponseData({
-                    errMsg: 'File either > 10MB , or not ascii file'
-                });
-            });
+            form.on('error', (err) => writeResponseData({ errMsg: 'File uploaded is more than 10MB' }));
         } 
     } catch(err) {
         console.log(`err = ${JSON.stringify(err)}`);
