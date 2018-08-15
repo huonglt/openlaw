@@ -2,8 +2,9 @@
 
 This is a simple nodejs HTTP server running on port 8081.<br/>
 It provides an endpoint to upload an ascii file for parsing. The file size is limited to 10MB<br/>
+Uploaded files are stored in the folder named uploadDir, keeping the original filename in tact<br/>
 The parsing result will be a JSON object containng total word count, and the counts of each occurrence of a word fields<br/>
-If the parsing fails, it will return a JSON object with the error messageß
+If the parsing fails, it will return a JSON object with the error message
 
 ### Prerequisites
 You need to have node, npm or yarn install<br/>
